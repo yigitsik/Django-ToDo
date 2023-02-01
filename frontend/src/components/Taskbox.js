@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import {createTask} from '../actions/taskActions'
 import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-// const baseURL = "http://127.0.0.1:8000/api/";
-// const baseURL = "https://sanket-todolist-backend.herokuapp.com/api/";
 
 const initialState = {
 	title: "",
 	priority: '1',
 	status: '0',
+	deadline:''
 };
 
 const TaskBox = () => {
@@ -18,6 +19,7 @@ const TaskBox = () => {
 	const userLogin = useSelector(state => state.userLogin);
 	const { error, loading, userInfo } = userLogin;
 	const dispatch = useDispatch()
+	const [deadline, setDeadline] = useState(new Date());
 
 
 
@@ -29,6 +31,8 @@ const TaskBox = () => {
 	};
 
 
+
+
 	const addTaskHandler = (e) => {
 		e.preventDefault();
 
@@ -37,14 +41,21 @@ const TaskBox = () => {
 			return;
 		}
 
+		if (!data["title"] || !data["deadline"]) {
+			alert("Please Enter Full Data");
+			return;
+		}
+
 		const pdata = {}
 		pdata["title"] = data["title"]
 		pdata["status"] = data["status"]
 		pdata["priority"] = data["priority"]
+		pdata["deadline"] = data["deadline"]
 		pdata["user"] = userInfo.id
 
 		dispatch(createTask(pdata))
 
+		console.log(pdata);
 	};
 
 	return (
@@ -86,6 +97,21 @@ const TaskBox = () => {
 								<option value="4">Four</option>
 								<option value="5">Five</option>
 							</select>
+						</div>
+					</div>
+					<div className="row mb-3">
+						<label htmlFor="inputTask" className="col-sm-3 col-form-label">
+							Deadline
+						</label>
+						<div className="col-sm-10">
+							<input
+								type="date"
+								className="form-control"
+								id="deadline"
+								name="deadline"
+								value={data.deadline}
+								onChange={(e) => handleInputChange(e)}
+							/>
 						</div>
 					</div>
 					<div className="row mb-3">

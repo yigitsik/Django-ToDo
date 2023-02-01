@@ -3,6 +3,7 @@ import {
     TASK_LIST_REQUEST,
     TASK_LIST_SUCCESS,
     TASK_LIST_FAIL,
+    TASK_LIST_RESET,
    
     TASK_CREATE_REQUEST,
     TASK_CREATE_FAIL,
@@ -62,6 +63,13 @@ export const listTasks = () => async (dispatch, getState) => {
     }
 }
 
+export const resetTasks = () => async (dispatch,getState) => {
+    dispatch({
+        type: TASK_LIST_RESET,
+        payload: {}
+    })
+}
+
 export const createTask = (taskData) => async (dispatch, getState) => {
 
     const {
@@ -96,6 +104,8 @@ export const createTask = (taskData) => async (dispatch, getState) => {
     });
 
 }
+
+
 
 export const deleteTask = (id) => async (dispatch,getState) => {
 

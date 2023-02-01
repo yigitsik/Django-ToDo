@@ -16,12 +16,14 @@ const TaskList = (history) => {
 	const [isModalActive, setIsModalActive] = useState(false);
 	const [selectedItem, setSelectedItem] = useState(0)
 
+
 	const initialState = {
 		title: "",
 		priority: '1',
 		status: '0',
+		deadline:''
 	};
-	
+
 
 
 	const [data, setData] = useState(initialState);
@@ -33,7 +35,14 @@ const TaskList = (history) => {
 			[e.target.name]: e.target.value,
 
 		});
+
 	};
+
+
+	useEffect(() => {
+	 console.log(data);
+	 console.log(typeof(data.deadline))
+	}, [data])
 
 
 	useEffect(() => {
@@ -41,10 +50,8 @@ const TaskList = (history) => {
 		if (userInfo) {
 
 			dispatch(listTasks())
-        } 
-		else {
-            console.log(history);
         }
+
 
 	}, [dispatch, userInfo]);
 
@@ -52,7 +59,16 @@ const TaskList = (history) => {
 	const updateButtonHandler = (id) => {
 		setSelectedItem(id)
 		setIsModalActive(!isModalActive)
+
+		if(id){
+			setData(taskList.tasks.find(e => e.id == id))
+		}
+	
 	}
+
+
+
+
 
 	const updateHandler = (e,id) => {
 		e.preventDefault();
@@ -70,7 +86,6 @@ const TaskList = (history) => {
 
 	return (
 		<div className="col-md-8">
-
 <Modal show={isModalActive} onHide={updateButtonHandler} animation={false}>
 			<Modal.Header closeButton>
 				<Modal.Title>Update Task</Modal.Title>
@@ -102,7 +117,7 @@ const TaskList = (history) => {
 								className="form-select"
 								name="priority"
 								value={data.priority}
-								
+
 								onChange={handleInputChange}>
 								<option value="1">One</option>
 								<option value="2">Two</option>
@@ -129,6 +144,21 @@ const TaskList = (history) => {
 							</select>
 						</div>
 					</div>
+					<div className="row mb-3">
+						<label htmlFor="inputTask" className="col-sm-3 col-form-label">
+							Deadline
+						</label>
+						<div className="col-sm-10">
+							<input
+								type="date"
+								className="form-control"
+								id="deadline"
+								name="deadline"
+								value={data.deadline.split('T')[0]}
+								onChange={handleInputChange}
+							/>
+						</div>
+					</div>
 					<button
 						type="button"
 						className="btn btn-primary"
@@ -140,9 +170,11 @@ const TaskList = (history) => {
 			</Modal.Body>
 		</Modal>
 
+
+
 			<div className="h-100 p-4 bg-light border rounded-3">
 				<h2 className="text-center">Task List</h2> <br />
-				{userLogin ?
+				{userInfo ?
 					(taskList.loading ? <span className="loader">LOADING...</span> :
 						(taskList.tasks ?
 							(<>
@@ -154,6 +186,7 @@ const TaskList = (history) => {
 												<th scope="col">Title</th>
 												<th scope="col">Priority</th>
 												<th scope="col">Status</th>
+												<th scope="col">Deadline</th>
 												<th scope="col">Action</th>
 											</tr>
 										</thead>
@@ -165,6 +198,7 @@ const TaskList = (history) => {
 														<td>{task.title}</td>
 														<td>{task.priority}</td>
 														<td>{task.status === "0" ? "Pending" : "Completed"}</td>
+														<td>{task.deadline.split('T')[0]}</td>
 														<td>
 															<button
 																className="btn btn-warning"
@@ -186,7 +220,7 @@ const TaskList = (history) => {
 										</tbody>
 									</table>
 								</div>
-							</>):<span className="error">There is no task yet</span> 
+							</>):<span className="error">There is no task yet</span>
 						)
 					)
 					:

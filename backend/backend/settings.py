@@ -144,19 +144,6 @@ DATABASES = {
 
 }
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'proshop',
-#        'USER': 'dennisivy',
-#        'PASSWORD': os.environ.get('DB_PASS'),
-#        'HOST': os.environ.get('HOST'),
-#        'PORT': '5432'
-#    }
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

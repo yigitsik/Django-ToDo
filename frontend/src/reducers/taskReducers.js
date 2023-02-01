@@ -6,6 +6,7 @@ import {
     TASK_LIST_REQUEST,
     TASK_LIST_SUCCESS,
     TASK_LIST_FAIL,
+    TASK_LIST_RESET,    
     TASK_DELETE_REQUEST,
     TASK_DELETE_SUCCESS,
     TASK_DELETE_FAIL,
@@ -25,6 +26,9 @@ export const taskListReducer = (state = {}, action) => {
             return{ loading: false, tasks: action.payload}
 
         case TASK_LIST_FAIL:
+            return { loading: false, error: action.payload }
+
+        case TASK_LIST_RESET:
             return { loading: false, error: action.payload }
 
         case TASK_CREATE_REQUEST:

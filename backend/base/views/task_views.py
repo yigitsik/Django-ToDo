@@ -25,11 +25,13 @@ def getTasks(request):
 def createTask(request):
     user = request.user
 
+    print(request.data["deadline"])
+
     product = Task.objects.create(
         user=user,
         title=request.data["title"],
         status=request.data["status"],
-        date="",
+        deadline=request.data["deadline"],
         priority=request.data["priority"],
     )
 
@@ -65,7 +67,7 @@ def updateTask(request, pk):
     task.user = user
     task.title = data['title']
     task.status = data['status']
-    task.date = "2012-09-04 06:00"
+    task.deadline = data['deadline']
     task.priority = data['priority']
 
     task.save()

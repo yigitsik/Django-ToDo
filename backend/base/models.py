@@ -21,5 +21,5 @@ class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     status = models.CharField(max_length=2, choices=status_choice)
-    date = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField()
     priority = models.CharField(max_length=2, choices=priority_choice)
